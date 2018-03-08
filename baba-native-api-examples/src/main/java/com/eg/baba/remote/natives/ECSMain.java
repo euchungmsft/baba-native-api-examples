@@ -2,10 +2,14 @@ package com.eg.baba.remote.natives;
 
 import com.aliyuncs.ecs.model.v20140526.AllocatePublicIpAddressRequest;
 import com.aliyuncs.ecs.model.v20140526.AllocatePublicIpAddressResponse;
+import com.aliyuncs.ecs.model.v20140526.CopyImageRequest;
+import com.aliyuncs.ecs.model.v20140526.CopyImageResponse;
 import com.aliyuncs.ecs.model.v20140526.CreateInstanceRequest;
 import com.aliyuncs.ecs.model.v20140526.CreateInstanceResponse;
 import com.aliyuncs.ecs.model.v20140526.DeleteInstanceRequest;
 import com.aliyuncs.ecs.model.v20140526.DeleteInstanceResponse;
+import com.aliyuncs.ecs.model.v20140526.DescribeSnapshotsRequest;
+import com.aliyuncs.ecs.model.v20140526.DescribeSnapshotsResponse;
 import com.aliyuncs.ecs.model.v20140526.StartInstanceRequest;
 import com.aliyuncs.ecs.model.v20140526.StartInstanceResponse;
 import com.aliyuncs.ecs.model.v20140526.StopInstanceRequest;
@@ -29,13 +33,68 @@ public class ECSMain extends AbstractMain {
 	public void perform() {
 		// TODO Auto-generated method stub
 
-		String instanceId = createInstance();
+//		String instanceId = createInstance();
+//
+//		allocPublicIP(instanceId);
+//
+//		startInstance(instanceId);
+//		stopInstance(instanceId);
+//		releaseInstance(instanceId);
+		
+//		copyImage();
+		
+		snapshotInfo();
 
-		allocPublicIP(instanceId);
+	}
 
-		startInstance(instanceId);
-		stopInstance(instanceId);
-		releaseInstance(instanceId);
+	private void snapshotInfo() {
+		// TODO Auto-generated method stub
+		
+		DescribeSnapshotsRequest req = new DescribeSnapshotsRequest();
+		req.setRegionId("cn-shanghai");
+		req.setInstanceId("i-uf6fbha9mr8dm6k46nze");
+
+		try {
+
+			DescribeSnapshotsResponse res = client.getAcsResponse(req);
+			ClientProfile.printObject(res);
+
+			return;
+
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void copyImage() {
+		// TODO Auto-generated method stub
+
+		CopyImageRequest req = new CopyImageRequest();
+		req.setRegionId("cn-shanghai");
+		req.setImageId("m-uf6ie8zk8pyppyb959rk");
+		req.setDestinationRegionId("cn-hongkong");
+		req.setDestinationImageName("LIXING_20171121_01");
+		req.setDestinationDescription("Copied from "+req.getRegionId()+" at "+System.currentTimeMillis());
+
+		try {
+
+			CopyImageResponse res = client.getAcsResponse(req);
+			ClientProfile.printObject(res);
+
+			return;
+
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
